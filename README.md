@@ -27,6 +27,8 @@ Get Personalized Recommendations: Follow tailored advice and resources to take y
 ## 🌟 Join Us on This Journey
 Whether you're a developer, a career coach, or a job seeker, there's something in CareerNavigator-AI for everyone! We're on a mission to make career preparation more accessible, insightful, and, yes, even fun! 🎉
 
+Join our discord server [link](https://discord.gg/gGePpQwt) and let's do cool stuff.
+
 🔗 Dive in and explore the code, contribute, or simply give it a spin - your feedback and contributions are what make this journey thrilling!
 
 Let's Navigate Your Career Path, Together! 🛤️
