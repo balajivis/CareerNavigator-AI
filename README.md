@@ -1,4 +1,4 @@
-🚀 Welcome to CareerNavigator-AI! 🌟
+#🚀 Welcome to CareerNavigator-AI! 🌟
 
 🤖 Your Personal AI-Powered Career Coach!
 
