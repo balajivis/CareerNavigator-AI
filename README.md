@@ -1,7 +1,7 @@
 # 🚀 Welcome to CareerNavigator-AI! 🌟
+An innovative RAG-powered tool for dynamic job interview prep and career guidance, leveraging GPT-4 for personalized, real-time learning and feedback. Perfect for devs looking to enhance their interview skills or contribute to cutting-edge AI in career development.
 
 ## 🤖 Your Personal AI-Powered Career Coach!
-
 Are you gearing up for your next big career leap? 🌉 Or maybe diving into the job market for the first time? Whatever your career path looks like, CareerNavigator-AI is here to guide you through the twists and turns of job interviews and career planning!
 
 ## 🎯 What is CareerNavigator-AI?
