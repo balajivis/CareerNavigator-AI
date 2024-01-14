@@ -2,3 +2,4 @@ pymango
 together
 flask
 gunicorn
+flask_cors
