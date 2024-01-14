@@ -49,3 +49,6 @@ def vector_job_search(text):
         }
         job_postings.append(job_posting)
     return job_postings
+
+if __name__ == "__main__":
+    print(vector_job_search("software engineer"))

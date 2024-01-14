@@ -6,15 +6,15 @@ from bson.json_util import dumps
 from bson.objectid import ObjectId
 from vectorSearch import vector_job_search
 
-application = Flask(__name__)
-CORS(application)
+app = Flask(__name__)
+CORS(app)
 
 client = MongoClient('mongodb://localhost:27017/')
 db = client['career_nav']
 job_collection = db['job_descriptions_dice']
 user_collection = db['users']
 
-@application.route('/data')
+@app.route('/data')
 def get_data():
     data = job_collection.find()  # Fetch data from MongoDB
     data_list = list(data)  # Convert cursor to list
@@ -22,7 +22,7 @@ def get_data():
         item['_id'] = str(item['_id'])
     return jsonify(data_list)
 
-@application.route('/add_user', methods=['POST'])
+@app.route('/add_user', methods=['POST'])
 def add_user():
     user_data = request.json
     if not user_data:
@@ -36,7 +36,7 @@ def add_user():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
     
-@application.route('/get_user/<userid>', methods=['GET'])
+@app.route('/get_user/<userid>', methods=['GET'])
 def get_user(userid):
     try:
         # Convert the userid to ObjectId for querying MongoDB
@@ -52,10 +52,11 @@ def get_user(userid):
     else:
         return jsonify({"error": "User not found"}), 404
     
-@application.route('/search_jobs', methods=['GET'])
+@app.route('/search_jobs', methods=['GET'])
 def search_jobs():
     # Get the query from the request (e.g., as a query parameter)
     query = request.args.get('query', '')  # Default to empty string if not provided
+
 
     # Use the imported function to perform the job search
     job_postings = vector_job_search(query)
@@ -63,13 +64,13 @@ def search_jobs():
     # Return the job postings as JSON
     return jsonify(job_postings)
 
-@application.route('/job_search')
+@app.route('/job_search')
 def job_search_page():
     return render_template('index.html')
 
-@application.route('/')
+@app.route('/')
 def home():
     return "Welcome to the API!"
 
 if __name__ == '__main__':
-    application.run(debug=True)
+    app.run(debug=True)
