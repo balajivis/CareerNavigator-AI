@@ -8,7 +8,6 @@ from typing import List
 
 together.api_key = os.getenv('TOGETHER_API_KEY')
 embedding_model_string = 'togethercomputer/m2-bert-80M-8k-retrieval' # model API string from Together.
-
 mongo_password = os.getenv('MONGO_ATLAS_PWD')
 client = MongoClient('mongodb+srv://career_nav:'+mongo_password+'@careernav.wu8ekwo.mongodb.net/')
 db = client['career_nav']
