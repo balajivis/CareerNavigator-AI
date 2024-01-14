@@ -1,4 +1,4 @@
-pymango
+pymongo
 together
 flask
 gunicorn
