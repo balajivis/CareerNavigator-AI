@@ -24,7 +24,15 @@
     
 </head>
 <body>
-    <h1>Job Search</h1>
+    <h1>Career Navigator</h1>
+    <div>
+        <h2>Upload Your Resume</h2>
+        <form action="/upload_resume" method="post" enctype="multipart/form-data">
+            <input type="file" name="resume" accept=".pdf" required>
+            <input type="submit" value="Upload">
+        </form>
+    </div>
+    
     <input type="text" id="searchInput" placeholder="Search for jobs..." onkeypress="submitOnEnter(event)">
     <table id="jobsTable">
         <tr>

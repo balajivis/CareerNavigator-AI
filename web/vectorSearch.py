@@ -13,6 +13,8 @@ client = MongoClient('mongodb+srv://career_nav:'+mongo_password+'@careernav.wu8e
 db = client['career_nav']
 collection = db['job_descriptions_dice'] 
 
+
+
 def generate_embeddings(input_texts: List[str], model_api_string: str) -> List[List[float]]:
     together_client = together.Together()
     outputs = together_client.embeddings.create(
@@ -21,8 +23,12 @@ def generate_embeddings(input_texts: List[str], model_api_string: str) -> List[L
     )
     return [x.embedding for x in outputs.data]
 
-def vector_job_search(text):
-    query_emb = generate_embeddings([text], embedding_model_string)[0]
+def vector_job_search(text, user_embedding=None):
+    if user_embedding is None:
+        query_emb = generate_embeddings([text], embedding_model_string)[0]
+    else:
+        query_emb = user_embedding
+
     results = collection.aggregate([
     {
         "$vectorSearch": {
@@ -48,6 +54,13 @@ def vector_job_search(text):
         }
         job_postings.append(job_posting)
     return job_postings
+
+import openai
+openai.api_key = os.getenv("AZURE_OPENAI_KEY1")
+openai.api_base = os.getenv("AZURE_OPENAI_ENDPOINT")
+openai.api_type = 'azure'
+openai.api_version = '2023-05-15'
+deployment_name = os.getenv('AZURE_DEPLOYMENT_NAME')
 
 if __name__ == "__main__":
     print(vector_job_search("software engineer"))

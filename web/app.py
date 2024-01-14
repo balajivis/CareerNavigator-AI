@@ -1,18 +1,34 @@
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify, render_template, redirect, url_for
 from flask_cors import CORS
+from werkzeug.utils import secure_filename
+import os
+import PyPDF2
+
 
 from pymongo import MongoClient
 from bson.json_util import dumps
 from bson.objectid import ObjectId
-from vectorSearch import vector_job_search
+from vectorSearch import vector_job_search, generate_embeddings
 
 app = Flask(__name__)
+ALLOWED_EXTENSIONS = {'pdf'}
 CORS(app)
 
 client = MongoClient('mongodb://localhost:27017/')
 db = client['career_nav']
 job_collection = db['job_descriptions_dice']
 user_collection = db['users']
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+def extract_text_from_pdf(file_path):
+    text = ""
+    with open(file_path, 'rb') as file:
+            reader = PyPDF2.PdfReader(file)
+            for page in range(len(reader.pages)):
+                text += " "+reader.pages[page].extract_text()
+    return text
 
 @app.route('/data')
 def get_data():
@@ -67,6 +83,24 @@ def search_jobs():
 @app.route('/job_search')
 def job_search_page():
     return render_template('index.html')
+
+@app.route('/upload_resume', methods=['POST'])
+def upload_resume():
+    if 'resume' not in request.files:
+        return redirect(request.url)
+    file = request.files['resume']
+    if file.filename == '':
+        return redirect(request.url)
+    if file and allowed_file(file.filename):
+        filename = secure_filename(file.filename)
+        filepath = os.path.join('/tmp', filename)
+        file.save(filepath)
+        extracted_text = extract_text_from_pdf(filepath)
+        print(extracted_text)
+        user_embedding = generate_embeddings(extracted_text, 'togethercomputer/m2-bert-80M-8k-retrieval')
+        job_postings = vector_job_search("", user_embedding=user_embedding[0])
+        return jsonify(job_postings)
+
 
 @app.route('/')
 def home():
