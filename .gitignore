@@ -1,0 +1,40 @@
+# Dependency directories
+node_modules/
+
+# Build outputs
+/build
+/dist
+
+# Environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Debug logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# IDE / Editor directories
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Operating System files
+.DS_Store
+Thumbs.db
+
+# Optional npm cache & logs
+.npm
+.npmrc
+.npmignore
+.npmlogs
+
+# Optional eslint cache
+.eslintcache
+
+# Optional gitignore global
+.gitignore_global
