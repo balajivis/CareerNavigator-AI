@@ -3,3 +3,4 @@ together
 flask
 gunicorn
 flask_cors
+python-dotenv
