@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Search</title>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+    <script>
+        
+    </script>
+    
+</head>
+<body>
+    <h1>Job Search</h1>
+    <input type="text" id="searchInput" placeholder="Search for jobs..." onkeypress="submitOnEnter(event)">
+    <table id="jobsTable">
+        <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Company</th>
+            <th>Location</th>
+            <th>Employment Type</th>
+            <th>Description</th>
+        </tr>
+        <!-- Job rows will go here -->
+    </table>
+
+    <script>
+        // Function to handle Enter key press
+        function submitOnEnter(event) {
+            if (event.keyCode === 13) {  // 13 is the keycode for Enter key
+                searchJobs();
+            }
+        }
+
+        function searchJobs() {
+            var input, filter, table;
+            input = document.getElementById("searchInput");
+            filter = input.value;
+
+            // Fetch data from the Flask API
+            fetch('http://127.0.0.1:5000/search_jobs?query=' + filter)
+                .then(response => response.json())
+                .then(jobs => {
+                    table = document.getElementById("jobsTable");
+                    
+                    // Clear existing rows
+                    while(table.rows.length > 1) {
+                        table.deleteRow(1);
+                    }
+    
+                    // Populate the table with new results
+                    jobs.forEach(job => {
+                        var row = table.insertRow();
+                        var idCell = row.insertCell(0);
+                        var titleCell = row.insertCell(1);
+                        var companyCell = row.insertCell(2);
+                        var locationCell = row.insertCell(3);
+                        var typeCell = row.insertCell(4);
+                        var descCell = row.insertCell(5);
+    
+                        idCell.innerHTML = job.id;
+                        titleCell.innerHTML = job.jobTitle;
+                        companyCell.innerHTML = job.company;
+                        locationCell.innerHTML = job.location;
+                        typeCell.innerHTML = job.employmentType;
+                        descCell.innerHTML = job.description;
+                    });
+                })
+                .catch(error => console.error('Error:', error));
+        }
+    
+        // Initialize empty table
+        searchJobs();
+
+        function loadJobs() {
+            var table = document.getElementById("jobsTable");
+            jobs.forEach(job => {
+                var row = table.insertRow();
+                var idCell = row.insertCell(0);
+                var titleCell = row.insertCell(1);
+                var companyCell = row.insertCell(2);
+                var locationCell = row.insertCell(3);
+                var typeCell = row.insertCell(4);
+                var descCell = row.insertCell(5);
+
+                idCell.innerHTML = job.id;
+                titleCell.innerHTML = job.jobTitle;
+                companyCell.innerHTML = job.company;
+                locationCell.innerHTML = job.location;
+                typeCell.innerHTML = job.employmentType;
+                descCell.innerHTML = job.description;
+            });
+        }
+
+        window.onload = loadJobs;
+    </script>
+</body>
+</html>
